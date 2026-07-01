@@ -16,6 +16,7 @@ class SoundRepository(private val context: Context) {
     private val dao: SoundDao = SoundDatabase.getDatabase(context).soundDao()
 
     val allSounds: Flow<List<SoundEntity>> = dao.getAllSounds()
+    val allSoundsByFavorite: Flow<List<SoundEntity>> = dao.getAllSoundsByFavorite()
 
     fun getSoundsDir(): File {
         val dir = File(context.filesDir, "sounds")

@@ -80,7 +80,7 @@ fun FloatingPanelContent(
     val context = LocalContext.current
     val prefs = remember { SecurePreferences(context) }
     val repo = remember { SoundRepository(context) }
-    val sounds by repo.allSounds.collectAsState(initial = emptyList())
+    val sounds by repo.allSoundsByFavorite.collectAsState(initial = emptyList())
     val gridState = rememberLazyGridState()
     val scope = rememberCoroutineScope()
     var gridSize by remember { mutableStateOf(IntSize.Zero) }
@@ -243,7 +243,7 @@ fun FloatingPanelContent(
                             detectVerticalDragGestures { _, dragAmount ->
                                 val totalScroll = gridState.layoutInfo.totalItemsCount * 60
                                 scope.launch {
-                                    gridState.scrollBy(dragAmount * 3)
+                                    gridState.animateScrollBy(dragAmount * 3, tween(0))
                                 }
                             }
                         }
