@@ -6,6 +6,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.fftool.soundboard.ui.screens.HomeScreen
 import com.fftool.soundboard.ui.screens.LoginScreen
+import com.fftool.soundboard.ui.screens.PermissionsScreen
 import com.fftool.soundboard.ui.screens.SplashScreen
 
 @Composable
@@ -27,8 +28,18 @@ fun NavGraph(navController: NavHostController) {
         composable(Screen.Login.route) {
             LoginScreen(
                 onLoginSuccess = {
-                    navController.navigate(Screen.Home.route) {
+                    navController.navigate(Screen.Permissions.route) {
                         popUpTo(Screen.Login.route) { inclusive = true }
+                    }
+                }
+            )
+        }
+
+        composable(Screen.Permissions.route) {
+            PermissionsScreen(
+                onAllGranted = {
+                    navController.navigate(Screen.Home.route) {
+                        popUpTo(Screen.Permissions.route) { inclusive = true }
                     }
                 }
             )
@@ -36,10 +47,15 @@ fun NavGraph(navController: NavHostController) {
 
         composable(Screen.Home.route) {
             HomeScreen(
+                onNavigateToUpload = { /* Phase 5 */ },
                 onNavigateToSettings = {
-                    /* Phase 8 */
+                    navController.navigate(Screen.Settings.route)
                 }
             )
+        }
+
+        composable(Screen.Settings.route) {
+            /* Phase 8 */
         }
     }
 }

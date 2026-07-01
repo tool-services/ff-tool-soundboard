@@ -25,7 +25,10 @@ import com.fftool.soundboard.ui.theme.TextPrimary
 import com.fftool.soundboard.ui.theme.TextSecondary
 
 @Composable
-fun HomeScreen(onNavigateToSettings: () -> Unit) {
+fun HomeScreen(
+    onNavigateToUpload: () -> Unit,
+    onNavigateToSettings: () -> Unit
+) {
     GradientBackground(modifier = Modifier.fillMaxSize()) {
         Column(
             modifier = Modifier
@@ -70,7 +73,7 @@ fun HomeScreen(onNavigateToSettings: () -> Unit) {
 
                 PremiumButton(
                     text = "Upload Sounds",
-                    onClick = { /* Phase 4 */ },
+                    onClick = onNavigateToUpload,
                     modifier = Modifier.padding(horizontal = 16.dp)
                 )
 

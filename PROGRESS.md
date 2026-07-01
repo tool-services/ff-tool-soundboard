@@ -27,3 +27,12 @@
 - ComponentPreviewScreen: visual verification of all design components
 - Fixed background overload ambiguity and nullable String? compilation errors
 - GitHub Actions build verified successful
+
+## 2026-07-01 — Phase 3: Splash + Login + Navigation
+- Animated SplashScreen with fade-in logo/subtitle, auto-transition after 1.5s
+- LoginScreen with styled OutlinedTextFields, test/test123 credential check
+- Error display for invalid credentials
+- HomeScreen placeholder with Upload/Launch buttons and Settings icon
+- Navigation graph: Splash → Login → Home with clean backstack pop
+- MainActivity refactored to NavHost with Compose Navigation
+- GitHub Actions build verified successful
