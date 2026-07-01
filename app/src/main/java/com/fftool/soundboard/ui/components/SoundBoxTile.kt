@@ -1,10 +1,12 @@
 package com.fftool.soundboard.ui.components
 
+import android.graphics.BitmapFactory
 import androidx.compose.animation.core.RepeatMode
 import androidx.compose.animation.core.animateFloat
 import androidx.compose.animation.core.infiniteRepeatable
 import androidx.compose.animation.core.rememberInfiniteTransition
 import androidx.compose.animation.core.tween
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -22,12 +24,15 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.scale
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.asImageBitmap
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
@@ -38,11 +43,13 @@ import com.fftool.soundboard.ui.theme.SurfaceElevated
 import com.fftool.soundboard.ui.theme.TextDisabled
 import com.fftool.soundboard.ui.theme.TextPrimary
 import com.fftool.soundboard.ui.theme.TextSecondary
+import java.io.File
 
 @Composable
 fun SoundBoxTile(
     boxNumber: Int,
     displayName: String?,
+    imagePath: String? = null,
     isLoading: Boolean = false,
     isPlaying: Boolean = false,
     onClick: () -> Unit,
@@ -77,6 +84,15 @@ fun SoundBoxTile(
     }
 
     val borderWidth = if (isPlaying) 2.dp else 1.dp
+
+    val imageBitmap = remember(imagePath) {
+        if (imagePath != null) {
+            val file = File(imagePath)
+            if (file.exists()) {
+                BitmapFactory.decodeFile(imagePath)?.asImageBitmap()
+            } else null
+        } else null
+    }
 
     Box(
         modifier = modifier
@@ -120,31 +136,58 @@ fun SoundBoxTile(
                 )
             }
         } else {
-            Column(
-                horizontalAlignment = Alignment.CenterHorizontally,
-                verticalArrangement = Arrangement.Center,
-                modifier = Modifier.padding(6.dp)
-            ) {
-                Icon(
-                    imageVector = Icons.Outlined.MusicNote,
-                    contentDescription = null,
-                    tint = if (isPlaying) AccentSecondary else TextSecondary,
-                    modifier = Modifier.padding(bottom = 2.dp)
+            if (imageBitmap != null) {
+                Image(
+                    bitmap = imageBitmap,
+                    contentDescription = displayName,
+                    modifier = Modifier.fillMaxWidth().aspectRatio(1f),
+                    contentScale = ContentScale.Crop
                 )
-                Text(
-                    text = "#$boxNumber",
-                    color = TextDisabled,
-                    fontSize = 10.sp,
-                    textAlign = TextAlign.Center
-                )
-                Text(
-                    text = displayName.orEmpty(),
-                    color = if (isPlaying) AccentSecondary else TextPrimary,
-                    fontSize = 12.sp,
-                    textAlign = TextAlign.Center,
-                    maxLines = 2,
-                    overflow = TextOverflow.Ellipsis
-                )
+                // Label overlay at bottom
+                Box(
+                    modifier = Modifier
+                        .align(Alignment.BottomCenter)
+                        .fillMaxWidth()
+                        .background(Color.Black.copy(alpha = 0.5f), RoundedCornerShape(bottomStart = 12.dp, bottomEnd = 12.dp))
+                        .padding(horizontal = 4.dp, vertical = 2.dp),
+                    contentAlignment = Alignment.Center
+                ) {
+                    Text(
+                        text = displayName.orEmpty(),
+                        color = TextPrimary,
+                        fontSize = 10.sp,
+                        textAlign = TextAlign.Center,
+                        maxLines = 1,
+                        overflow = TextOverflow.Ellipsis
+                    )
+                }
+            } else {
+                Column(
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    verticalArrangement = Arrangement.Center,
+                    modifier = Modifier.padding(6.dp)
+                ) {
+                    Icon(
+                        imageVector = Icons.Outlined.MusicNote,
+                        contentDescription = null,
+                        tint = if (isPlaying) AccentSecondary else TextSecondary,
+                        modifier = Modifier.padding(bottom = 2.dp)
+                    )
+                    Text(
+                        text = "#$boxNumber",
+                        color = TextDisabled,
+                        fontSize = 10.sp,
+                        textAlign = TextAlign.Center
+                    )
+                    Text(
+                        text = displayName.orEmpty(),
+                        color = if (isPlaying) AccentSecondary else TextPrimary,
+                        fontSize = 12.sp,
+                        textAlign = TextAlign.Center,
+                        maxLines = 2,
+                        overflow = TextOverflow.Ellipsis
+                    )
+                }
             }
         }
     }

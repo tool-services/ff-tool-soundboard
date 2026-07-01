@@ -14,6 +14,8 @@ data class SoundEntity(
     @ColumnInfo(name = "box_number") val boxNumber: Int,
     @ColumnInfo(name = "display_name") val displayName: String,
     @ColumnInfo(name = "file_path") val filePath: String,
+    @ColumnInfo(name = "image_path") val imagePath: String? = null,
     @ColumnInfo(name = "upload_date") val uploadDate: Long = System.currentTimeMillis(),
-    @ColumnInfo(name = "is_custom_name") val isCustomName: Boolean = false
+    @ColumnInfo(name = "is_custom_name") val isCustomName: Boolean = false,
+    @ColumnInfo(name = "is_favorite") val isFavorite: Boolean = false
 )

@@ -39,4 +39,19 @@ interface SoundDao {
 
     @Query("SELECT COUNT(*) FROM sounds")
     suspend fun getCount(): Int
+
+    @Query("SELECT * FROM sounds ORDER BY is_favorite DESC, box_number ASC")
+    fun getAllSoundsByFavorite(): Flow<List<SoundEntity>>
+
+    @Query("UPDATE sounds SET is_favorite = :isFavorite WHERE box_number = :boxNumber")
+    suspend fun setFavorite(boxNumber: Int, isFavorite: Boolean)
+
+    @Query("UPDATE sounds SET image_path = :imagePath WHERE box_number = :boxNumber")
+    suspend fun updateImagePath(boxNumber: Int, imagePath: String?)
+
+    @Query("UPDATE sounds SET display_name = :displayName WHERE box_number = :boxNumber")
+    suspend fun updateDisplayName(boxNumber: Int, displayName: String)
+
+    @Query("UPDATE sounds SET box_number = :newBox WHERE box_number = :oldBox")
+    suspend fun moveBoxNumber(oldBox: Int, newBox: Int)
 }

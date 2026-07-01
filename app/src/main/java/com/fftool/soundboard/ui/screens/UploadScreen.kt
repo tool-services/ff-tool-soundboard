@@ -60,6 +60,7 @@ import com.fftool.soundboard.ui.theme.AccentPrimary
 import com.fftool.soundboard.ui.theme.BackgroundPrimary
 import com.fftool.soundboard.ui.theme.BackgroundSecondary
 import com.fftool.soundboard.ui.theme.BorderSubtle
+import com.fftool.soundboard.ui.theme.ErrorRed
 import com.fftool.soundboard.ui.theme.TextDisabled
 import com.fftool.soundboard.ui.theme.TextPrimary
 import com.fftool.soundboard.ui.theme.TextSecondary
@@ -81,18 +82,30 @@ fun UploadScreen(
     var namingOption by remember { mutableStateOf(NamingOption.DEFAULT) }
     var customName by remember { mutableStateOf("") }
     var namingDropdownExpanded by remember { mutableStateOf(false) }
+    var pendingUri by remember { mutableStateOf<Uri?>(null) }
+    var pendingName by remember { mutableStateOf("") }
+    var selectedImageUri by remember { mutableStateOf<Uri?>(null) }
+    var lastImportDone by remember { mutableStateOf(false) }
+
+    val imagePickerLauncher = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.GetContent()
+    ) { uri: Uri? ->
+        if (uri != null) {
+            selectedImageUri = uri
+        }
+    }
 
     val singleFileLauncher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.OpenDocument()
     ) { uri: Uri? ->
         if (uri != null) {
-            scope.launch {
-                val name = getFileName(context, uri)
-                val displayName = if (namingOption == NamingOption.CUSTOM) {
-                    customName.ifBlank { name }
-                } else name
-                repo.importSound(uri, displayName, isCustomName = namingOption == NamingOption.CUSTOM)
-            }
+            val name = getFileName(context, uri)
+            val displayName = if (namingOption == NamingOption.CUSTOM) {
+                customName.ifBlank { name }
+            } else name
+            pendingUri = uri
+            pendingName = displayName
+            lastImportDone = false
         }
     }
 
@@ -139,10 +152,10 @@ fun UploadScreen(
                             audioFiles.map { it.second }
                         )
                     } else {
-                        for ((fileUri, displayName) in audioFiles) {
-                            val name = displayName.substringBeforeLast(".")
-                            repo.importSound(fileUri, name, isCustomName = false)
-                        }
+                            for ((fileUri, displayName) in audioFiles) {
+                                val name = displayName.substringBeforeLast(".")
+                                repo.importSound(fileUri, name, imageUri = selectedImageUri, isCustomName = false)
+                            }
                     }
                 }
             }
@@ -260,6 +273,43 @@ fun UploadScreen(
             )
             Spacer(modifier = Modifier.height(12.dp))
 
+            // Image picker hint
+            Text(
+                text = "Cover Image",
+                color = TextPrimary,
+                fontWeight = FontWeight.SemiBold,
+                fontSize = 14.sp
+            )
+            Text(
+                text = "Recommended image size: 300×300px (square, 1:1 ratio) for best quality",
+                color = TextSecondary,
+                fontSize = 11.sp
+            )
+            Spacer(modifier = Modifier.height(8.dp))
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.spacedBy(8.dp)
+            ) {
+                PremiumButton(
+                    text = if (selectedImageUri != null) "Change Image" else "Add Image",
+                    onClick = { imagePickerLauncher.launch("image/*") },
+                    height = 40.dp,
+                    modifier = Modifier.weight(1f)
+                )
+                if (selectedImageUri != null) {
+                    PremiumButton(
+                        text = "Remove",
+                        onClick = { selectedImageUri = null },
+                        height = 40.dp,
+                        modifier = Modifier.weight(0.5f),
+                        gradientStart = com.fftool.soundboard.ui.theme.ErrorRed,
+                        gradientEnd = com.fftool.soundboard.ui.theme.ErrorRed
+                    )
+                }
+            }
+
+            Spacer(modifier = Modifier.height(16.dp))
+
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.spacedBy(12.dp)
@@ -291,7 +341,7 @@ fun UploadScreen(
                         color = TextSecondary,
                         fontSize = 12.sp
                     )
-                    Spacer(modifier = Modifier.height(12.dp))
+                    Spacer(modifier = Modifier.height(8.dp))
                     PremiumButton(
                         text = "Browse",
                         onClick = {
@@ -300,6 +350,29 @@ fun UploadScreen(
                         height = 40.dp,
                         modifier = Modifier.fillMaxWidth()
                     )
+                    if (pendingUri != null && !lastImportDone) {
+                        Spacer(modifier = Modifier.height(8.dp))
+                        PremiumButton(
+                            text = "Import Now",
+                            onClick = {
+                                scope.launch {
+                                    pendingUri?.let { uri ->
+                                        repo.importSound(
+                                            uri,
+                                            pendingName,
+                                            imageUri = selectedImageUri,
+                                            isCustomName = namingOption == NamingOption.CUSTOM
+                                        )
+                                        lastImportDone = true
+                                        pendingUri = null
+                                        selectedImageUri = null
+                                    }
+                                }
+                            },
+                            height = 36.dp,
+                            modifier = Modifier.fillMaxWidth()
+                        )
+                    }
                 }
 
                 // Folder button
@@ -329,13 +402,21 @@ fun UploadScreen(
                         color = TextSecondary,
                         fontSize = 12.sp
                     )
-                    Spacer(modifier = Modifier.height(12.dp))
+                    Spacer(modifier = Modifier.height(8.dp))
                     PremiumButton(
                         text = "Browse",
                         onClick = { folderLauncher.launch(null) },
                         height = 40.dp,
                         modifier = Modifier.fillMaxWidth()
                     )
+                    if (selectedImageUri != null) {
+                        Spacer(modifier = Modifier.height(8.dp))
+                        Text(
+                            text = "Image will be used for all files",
+                            color = TextSecondary,
+                            fontSize = 10.sp
+                        )
+                    }
                 }
             }
 

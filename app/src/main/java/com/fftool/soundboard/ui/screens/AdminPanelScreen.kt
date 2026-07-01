@@ -261,96 +261,136 @@ private fun ThemeEditorSection(prefs: SecurePreferences) {
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun AiPromptSection(context: Context) {
-    val categories = remember { AiPromptHelper.getCategories() }
-    var selectedCategory by remember { mutableStateOf(categories.firstOrNull() ?: "") }
-    var description by remember { mutableStateOf("") }
+    val entries = remember { AiPromptHelper.entries }
+    var selectedEntry by remember { mutableStateOf(entries.firstOrNull()) }
+    var userNotes by remember { mutableStateOf("") }
     var generatedPrompt by remember { mutableStateOf("") }
     var dropdownExpanded by remember { mutableStateOf(false) }
     var copied by remember { mutableStateOf(false) }
+    var showBottomSheet by remember { mutableStateOf(false) }
 
-    Text("AI Prompt Generator", color = TextPrimary, fontWeight = FontWeight.Bold, fontSize = 18.sp)
-    Text("Generate ready-to-paste prompts for AI coding assistants", color = TextSecondary, fontSize = 13.sp)
+    Text("Customize App", color = TextPrimary, fontWeight = FontWeight.Bold, fontSize = 18.sp)
+    Text("Tap a component to generate a ready-to-paste AI prompt", color = TextSecondary, fontSize = 13.sp)
     Spacer(Modifier.height(16.dp))
 
-    // Category dropdown
-    Text("What do you want to change?", color = TextSecondary, fontSize = 13.sp)
-    Spacer(Modifier.height(4.dp))
-
-    ExposedDropdownMenuBox(expanded = dropdownExpanded, onExpandedChange = { dropdownExpanded = it }) {
-        OutlinedTextField(
-            value = selectedCategory,
-            onValueChange = {},
-            readOnly = true,
-            trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = dropdownExpanded) },
-            modifier = Modifier.fillMaxWidth().menuAnchor(),
-            colors = fieldColors()
-        )
-        ExposedDropdownMenu(expanded = dropdownExpanded, onDismissRequest = { dropdownExpanded = false }) {
-            categories.forEach { cat ->
-                DropdownMenuItem(
-                    text = { Text(cat) },
-                    onClick = { selectedCategory = cat; dropdownExpanded = false }
+    // Per-component cards
+    entries.forEach { entry ->
+        val isSelected = selectedEntry?.componentName == entry.componentName
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(vertical = 3.dp)
+                .clip(RoundedCornerShape(12.dp))
+                .background(if (isSelected) AccentPrimary.copy(alpha = 0.15f) else SurfaceElevated)
+                .border(1.dp, if (isSelected) AccentPrimary else BorderSubtle, RoundedCornerShape(12.dp))
+                .clickable {
+                    selectedEntry = entry
+                    userNotes = ""
+                    generatedPrompt = ""
+                    copied = false
+                    showBottomSheet = true
+                }
+                .padding(12.dp),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Box(
+                modifier = Modifier.size(36.dp)
+                    .clip(RoundedCornerShape(8.dp))
+                    .background(AccentPrimary.copy(alpha = 0.2f)),
+                contentAlignment = Alignment.Center
+            ) {
+                Icon(
+                    Icons.Outlined.Psychology,
+                    contentDescription = null,
+                    tint = AccentPrimary,
+                    modifier = Modifier.size(20.dp)
+                )
+            }
+            Spacer(Modifier.width(12.dp))
+            Column(Modifier.weight(1f)) {
+                Text(entry.componentName, color = TextPrimary, fontSize = 13.sp, fontWeight = FontWeight.Medium)
+                Text(
+                    entry.currentBehavior.take(60) + "...",
+                    color = TextSecondary,
+                    fontSize = 10.sp,
+                    maxLines = 1,
+                    overflow = TextOverflow.Ellipsis
                 )
             }
         }
     }
 
-    Spacer(Modifier.height(12.dp))
-
-    // Description
-    Text("Describe the change", color = TextSecondary, fontSize = 13.sp)
-    Spacer(Modifier.height(4.dp))
-    OutlinedTextField(
-        value = description,
-        onValueChange = { description = it },
-        placeholder = { Text("E.g.: Change the home screen button layout from stacked to side-by-side...") },
-        modifier = Modifier.fillMaxWidth().height(120.dp),
-        colors = fieldColors()
-    )
-
-    Spacer(Modifier.height(12.dp))
-
-    Button(
-        onClick = {
-            generatedPrompt = AiPromptHelper.generatePrompt(selectedCategory, description)
-            copied = false
-        },
-        enabled = description.isNotBlank(),
-        modifier = Modifier.fillMaxWidth().height(48.dp),
-        shape = RoundedCornerShape(24.dp),
-        colors = ButtonDefaults.buttonColors(containerColor = AccentPrimary)
-    ) {
-        Text("Generate Prompt", color = TextPrimary)
-    }
-
-    if (generatedPrompt.isNotBlank()) {
-        Spacer(Modifier.height(16.dp))
+    // Bottom sheet when a component is selected
+    if (showBottomSheet && selectedEntry != null) {
+        Spacer(Modifier.height(8.dp))
         Box(
             modifier = Modifier.fillMaxWidth()
-                .clip(RoundedCornerShape(12.dp))
+                .clip(RoundedCornerShape(16.dp))
                 .background(SurfaceElevated)
-                .border(1.dp, BorderSubtle, RoundedCornerShape(12.dp))
-                .padding(12.dp)
+                .border(1.dp, BorderSubtle, RoundedCornerShape(16.dp))
+                .padding(16.dp)
         ) {
-            Text(generatedPrompt, color = TextSecondary, fontSize = 11.sp)
-        }
-        Spacer(Modifier.height(8.dp))
+            Column {
+                Text(selectedEntry!!.componentName, color = TextPrimary, fontWeight = FontWeight.Bold, fontSize = 16.sp)
+                Text(selectedEntry!!.currentBehavior, color = TextSecondary, fontSize = 12.sp)
+                Spacer(Modifier.height(12.dp))
 
-        Button(
-            onClick = {
-                val clipboard = context.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
-                clipboard.setPrimaryClip(ClipData.newPlainText("AI Prompt", generatedPrompt))
-                copied = true
-            },
-            modifier = Modifier.fillMaxWidth().height(48.dp),
-            shape = RoundedCornerShape(24.dp),
-            colors = ButtonDefaults.buttonColors(
-                containerColor = if (copied) SuccessGreen else AccentPrimary
-            )
-        ) {
-            Icon(Icons.Outlined.ContentCopy, null, Modifier.size(18.dp))
-            Spacer(Modifier.width(8.dp))
-            Text(if (copied) "Copied!" else "Copy Prompt", color = TextPrimary)
+                Text("Files:", color = TextSecondary, fontSize = 11.sp)
+                selectedEntry!!.files.forEach { file ->
+                    Text(file, color = TextPrimary.copy(alpha = 0.7f), fontSize = 10.sp)
+                }
+                Spacer(Modifier.height(12.dp))
+
+                OutlinedTextField(
+                    value = userNotes,
+                    onValueChange = { userNotes = it },
+                    placeholder = { Text("Describe the change you want here...") },
+                    modifier = Modifier.fillMaxWidth().height(100.dp),
+                    colors = fieldColors()
+                )
+                Spacer(Modifier.height(8.dp))
+
+                Button(
+                    onClick = {
+                        generatedPrompt = AiPromptHelper.generatePrompt(selectedEntry!!.componentName, userNotes)
+                        copied = false
+                    },
+                    modifier = Modifier.fillMaxWidth().height(44.dp),
+                    shape = RoundedCornerShape(22.dp),
+                    colors = ButtonDefaults.buttonColors(containerColor = AccentPrimary)
+                ) {
+                    Text("Generate Prompt", color = TextPrimary)
+                }
+
+                if (generatedPrompt.isNotBlank()) {
+                    Spacer(Modifier.height(12.dp))
+                    Box(
+                        modifier = Modifier.fillMaxWidth()
+                            .clip(RoundedCornerShape(12.dp))
+                            .background(BackgroundSecondary)
+                            .padding(12.dp)
+                    ) {
+                        Text(generatedPrompt, color = TextSecondary, fontSize = 11.sp)
+                    }
+                    Spacer(Modifier.height(8.dp))
+                    Button(
+                        onClick = {
+                            val clipboard = context.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+                            clipboard.setPrimaryClip(ClipData.newPlainText("AI Prompt", generatedPrompt))
+                            copied = true
+                        },
+                        modifier = Modifier.fillMaxWidth().height(44.dp),
+                        shape = RoundedCornerShape(22.dp),
+                        colors = ButtonDefaults.buttonColors(
+                            containerColor = if (copied) SuccessGreen else AccentPrimary
+                        )
+                    ) {
+                        Icon(Icons.Outlined.ContentCopy, null, Modifier.size(18.dp))
+                        Spacer(Modifier.width(8.dp))
+                        Text(if (copied) "Copied!" else "Copy Prompt", color = TextPrimary)
+                    }
+                }
+            }
         }
     }
 }
