@@ -1,0 +1,18 @@
+# Build Progress Log
+
+## 2026-07-01 — Phase 1: Project Skeleton & CI Pipeline
+- Created complete Android project structure with Gradle 8.4 wrapper, AGP 8.2.2, Kotlin 1.9.22, Compose BOM 2024.01.00
+- Set up project-level and app-level `build.gradle.kts` with all required dependencies:
+  - Compose (UI, Material3, icons-extended)
+  - Navigation Compose
+  - DataStore Preferences
+  - Media3 ExoPlayer
+  - Room (database)
+  - Jetpack Security (EncryptedSharedPreferences)
+- Created `AndroidManifest.xml` with all required permissions and BubbleOverlayService declaration
+- Established dark theme foundation: colors (`Color.kt`), typography (`Type.kt`), theme (`Theme.kt`)
+- Implemented minimal SplashScreen composable as launcher
+- Created vector adaptive app icon (FF diamond logo)
+- Added `.gitignore` and `.github/workflows/build.yml` for CI
+- Created `PROGRESS.md` and `PROJECT_STATE.txt` tracking files
+- Created placeholder `BubbleOverlayService` and `Sound` data model
