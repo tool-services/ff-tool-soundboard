@@ -1,23 +1,36 @@
 PROJECT: Premium Floating Soundboard App (FF Tool)
-CURRENT PHASE: 9 of 10
+CURRENT PHASE: Complete (All 10 Phases + Polish)
 LAST UPDATED: 2026-07-01
+PROJECT LOCATION: /storage/emulated/0/FF TOOL (moved from /root/FF-TOOL)
 
 COMPLETED FEATURES:
 - (Phase 1) Project skeleton + GitHub Actions CI — BUILD PASSES
 - (Phase 2) Design system: PremiumButton, PremiumCard, SoundBoxTile, GradientBackground
-- (Phase 3) Splash animation, Login screen (test/test123), Navigation graph
+- (Phase 3) Splash animation, Login screen, Navigation graph
 - (Phase 4) Home screen + Permissions onboarding (media, overlay, notifications)
 - (Phase 5) Upload system: Room DB, file picker, folder picker, rename wizard
 - (Phase 6) Bubble overlay service: foreground service, draggable bubble, edge-snap
 - (Phase 7) Floating panel + ExoPlayer single-channel playback
 - (Phase 8) Settings + PIN entry (42201) + Admin login gate (only/bypass)
+- (Phase 9) Full Admin Panel (social links, theme editor, AI prompt generator, credentials) + SecurePreferences login
+- (Phase 10) Polish: screen transitions, release signing config, both debug+release APK builds
 
-PENDING FEATURES:
-- Phase 9: Full Admin Panel (social links, theme editor, AI prompt generator, credentials)
-- Phase 10: Polish, animations, bug fixes, release build
+PENDING FEATURES (Blueprint V2 updates):
+- App Icon Changer framework (activity-alias switching) — waiting for user-provided icon image
+- Floating bubble/panel corrected state machine (tap logo to collapse, rotation handling, Hide button)
+- Sound box images (optional image picker during upload, store in Room as imagePath)
+- Per-component Admin Panel prompt registry (one entry per major component)
+- Phase 10.5 polish: haptic feedback, long-press context menu, search/filter bar, favorites pin, panel opacity slider, auto-hide timer, import/export sound pack
 
 KNOWN ISSUES:
-- (none yet)
+- (none)
 
 NEXT STEP:
-- Begin Phase 3: Splash + Login + Navigation
+- Rebuild app from scratch applying all Blueprint V2 corrections:
+  1. Floating window state machine (bubble ⇄ panel toggle via logo tap)
+  2. Rotation handling with Hide button
+  3. Sound box image support (upload flow + display)
+  4. Per-component admin prompt registry
+  5. App icon changer framework (activity-alias)
+  6. Phase 10.5 polish features
+  7. Final signed release APK
