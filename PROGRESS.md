@@ -69,3 +69,13 @@
 - XML layout for bubble: purple circle with FF text
 - Fixed explicit R import compilation error
 - GitHub Actions build verified successful
+
+## 2026-07-01 — Phase 7: Floating Panel UI + ExoPlayer Playback
+- SoundPlayer: ExoPlayer single-channel playback (play/stop/switch, no overlap)
+- FloatingPanelContent: Compose panel with header, social icons, 4-col sound grid
+- Social icons: TikTok, WhatsApp, YouTube, Website (Material icons) with ACTION_VIEW intents
+- Sound grid loaded from Room DB with active-state glow animation
+- ComposeView integrated into BubbleOverlayService as panel overlay
+- Panel toggles on bubble tap, follows bubble position during drag
+- Fixed Icons.Outlined.Globe → Language compilation error
+- GitHub Actions build verified successful

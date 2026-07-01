@@ -1,5 +1,5 @@
 PROJECT: Premium Floating Soundboard App (FF Tool)
-CURRENT PHASE: 7 of 10
+CURRENT PHASE: 8 of 10
 LAST UPDATED: 2026-07-01
 
 COMPLETED FEATURES:
@@ -9,11 +9,11 @@ COMPLETED FEATURES:
 - (Phase 4) Home screen + Permissions onboarding (media, overlay, notifications)
 - (Phase 5) Upload system: Room DB, file picker, folder picker, rename wizard
 - (Phase 6) Bubble overlay service: foreground service, draggable bubble, edge-snap
+- (Phase 7) Floating panel + ExoPlayer single-channel playback
 
 PENDING FEATURES:
-- Phase 7: Floating panel UI (Compose-in-overlay, ExoPlayer playback)
-- Phase 8: Settings, PIN entry, Admin login gate
-- Phase 9: Full Admin Panel
+- Phase 8: Settings, PIN entry (42201), Admin login gate (only/bypass)
+- Phase 9: Full Admin Panel (social links, theme editor, AI prompt generator, credentials)
 - Phase 10: Polish, animations, bug fixes, release build
 
 KNOWN ISSUES:
