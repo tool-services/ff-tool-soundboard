@@ -22,8 +22,8 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Close
-import androidx.compose.material.icons.outlined.Globe
 import androidx.compose.material.icons.outlined.Headphones
+import androidx.compose.material.icons.outlined.Language
 import androidx.compose.material.icons.outlined.Minimize
 import androidx.compose.material.icons.outlined.MusicNote
 import androidx.compose.material.icons.outlined.PlayArrow
@@ -149,7 +149,7 @@ fun FloatingPanelContent(
                 }
             )
             SocialIcon(
-                icon = Icons.Outlined.Globe,
+                icon = Icons.Outlined.Language,
                 label = "Website",
                 onClick = {
                     val intent = Intent(Intent.ACTION_VIEW, Uri.parse("https://fftool.app"))
