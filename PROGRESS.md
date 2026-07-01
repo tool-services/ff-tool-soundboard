@@ -99,3 +99,13 @@
 - Updated LoginScreen.validateLogin to check SecurePreferences (admin/user creds) instead of hardcoded test/test123
 - Updated NavGraph AdminPanel route from placeholder to real AdminPanelScreen composable
 - GitHub Actions build verified successful
+
+## 2026-07-01 — Phase 10: Polish — Screen Transitions + Release APK
+- Added fadeIn/fadeOut screen transition animations to all NavGraph composable routes
+- Forward navigation (Home, Upload, Settings, Admin screens) uses slideInHorizontally + fadeIn
+- Pop navigation uses slideOutHorizontally + fadeOut
+- PremiumButton already had press-scale animation (0.96), SoundBoxTile already had pulse/glow animation for playing state
+- Added release signing config to build.gradle.kts (reads from env vars with fallback defaults)
+- Updated proguard-rules.pro with keep rules for Compose, Room, Security Crypto, ExoPlayer
+- Updated GitHub Actions workflow: generates ephemeral keystore via keytool, builds both debug and release APKs
+- Release APK uploaded as separate artifact (app-release)

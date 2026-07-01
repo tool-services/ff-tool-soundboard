@@ -36,12 +36,34 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-gradle-
 
+      - name: Generate release keystore
+        run: |
+          keytool -genkey -v -keystore release.keystore -alias fftool \
+            -keyalg RSA -keysize 2048 -validity 10000 \
+            -storepass fftool123 -keypass fftool123 \
+            -dname "CN=FF Tool, OU=Development, O=FF Tool, L=Unknown, ST=Unknown, C=US"
+
       - name: Build debug APK
         run: ./gradlew assembleDebug --no-daemon
+
+      - name: Build release APK
+        run: ./gradlew assembleRelease --no-daemon
+        env:
+          KEYSTORE_PATH: ${{ github.workspace }}/release.keystore
+          KEYSTORE_PASSWORD: fftool123
+          KEY_ALIAS: fftool
+          KEY_PASSWORD: fftool123
 
       - name: Upload debug APK
         uses: actions/upload-artifact@v4
         with:
           name: app-debug
           path: app/build/outputs/apk/debug/app-debug.apk
+          if-no-files-found: error
+
+      - name: Upload release APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: app-release
+          path: app/build/outputs/apk/release/app-release.apk
           if-no-files-found: error
