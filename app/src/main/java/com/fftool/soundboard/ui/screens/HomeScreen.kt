@@ -1,6 +1,6 @@
 package com.fftool.soundboard.ui.screens
 
-import androidx.compose.foundation.background
+import android.content.Intent
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -16,9 +16,11 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.fftool.soundboard.service.BubbleOverlayService
 import com.fftool.soundboard.ui.components.GradientBackground
 import com.fftool.soundboard.ui.components.PremiumButton
 import com.fftool.soundboard.ui.theme.TextPrimary
@@ -29,6 +31,8 @@ fun HomeScreen(
     onNavigateToUpload: () -> Unit,
     onNavigateToSettings: () -> Unit
 ) {
+    val context = LocalContext.current
+
     GradientBackground(modifier = Modifier.fillMaxSize()) {
         Column(
             modifier = Modifier
@@ -81,7 +85,10 @@ fun HomeScreen(
 
                 PremiumButton(
                     text = "Launch Soundboard",
-                    onClick = { /* Phase 6 */ },
+                    onClick = {
+                        val intent = Intent(context, BubbleOverlayService::class.java)
+                        context.startForegroundService(intent)
+                    },
                     modifier = Modifier.padding(horizontal = 16.dp)
                 )
             }

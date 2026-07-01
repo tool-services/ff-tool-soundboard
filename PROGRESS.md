@@ -46,3 +46,14 @@
 - HomeScreen polished with placeholders for Upload/Launch
 - Fixed missing Box import compilation error
 - GitHub Actions build verified successful
+
+## 2026-07-01 — Phase 5: Upload System + Room Database
+- Room database: SoundEntity, SoundDao, SoundDatabase (singleton)
+- SoundRepository: file copy to private storage, extension detection
+- UploadScreen: single file picker, folder picker, Default/Custom name dropdown
+- RenameWizardScreen: step-by-step rename with Next/Skip Remaining
+- Live grid preview showing 12 boxes on UploadScreen
+- Navigation: Home → Upload → RenameWizard → back to Upload
+- kapt plugin added for Room annotation processing
+- Fixed @OptIn(ExperimentalMaterial3Api) compilation error
+- GitHub Actions build verified successful

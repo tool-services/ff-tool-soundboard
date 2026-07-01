@@ -8,12 +8,14 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
 import androidx.navigation.compose.rememberNavController
+import com.fftool.soundboard.service.NotificationHelper
 import com.fftool.soundboard.ui.navigation.NavGraph
 import com.fftool.soundboard.ui.theme.FFToolTheme
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        NotificationHelper.createChannel(this)
         enableEdgeToEdge()
         setContent {
             FFToolTheme {
