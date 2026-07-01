@@ -2,8 +2,6 @@ package com.fftool.soundboard.ui.compose
 
 import android.content.Intent
 import android.net.Uri
-import androidx.compose.animation.core.animateFloatAsState
-import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -20,13 +18,10 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.lazy.grid.rememberLazyGridState
-import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
@@ -53,7 +48,6 @@ import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.onSizeChanged
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -228,9 +222,7 @@ fun FloatingPanelContent(
 
                 // Right scrollbar (fast-scroll handle)
                 val firstVisible = gridState.firstVisibleItemIndex
-                val totalItems = displaySounds.size.coerceAtLeast(1)
                 val scrollbarHeight = (gridSize.height * 0.15f).coerceAtLeast(20f)
-                val scrollOffset = (gridSize.height - scrollbarHeight) * (firstVisible.toFloat() / totalItems)
 
                 Box(
                     modifier = Modifier
@@ -241,9 +233,11 @@ fun FloatingPanelContent(
                         .background(AccentPrimary.copy(alpha = 0.5f))
                         .pointerInput(Unit) {
                             detectVerticalDragGestures { _, dragAmount ->
-                                val totalScroll = gridState.layoutInfo.totalItemsCount * 60
                                 scope.launch {
-                                    gridState.animateScrollBy(dragAmount * 3, tween(0))
+                                    val items = gridState.layoutInfo.totalItemsCount
+                                    val jump = (-(dragAmount / gridSize.height) * items).toInt()
+                                    val target = (firstVisible + jump).coerceIn(0, (items - 1).coerceAtLeast(0))
+                                    gridState.scrollToItem(target)
                                 }
                             }
                         }
