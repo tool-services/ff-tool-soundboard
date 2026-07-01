@@ -61,11 +61,14 @@ fun PremiumButton(
                 spotColor = if (enabled) AccentPrimary.copy(alpha = 0.3f) else Color.Transparent
             )
             .clip(RoundedCornerShape(28.dp))
-            .background(
+            .then(
                 if (enabled) {
-                    Brush.horizontalGradient(listOf(gradientStart, gradientEnd))
+                    Modifier.background(
+                        Brush.horizontalGradient(listOf(gradientStart, gradientEnd)),
+                        RoundedCornerShape(28.dp)
+                    )
                 } else {
-                    Color(0xFF252C3D)
+                    Modifier.background(Color(0xFF252C3D), RoundedCornerShape(28.dp))
                 }
             )
             .then(

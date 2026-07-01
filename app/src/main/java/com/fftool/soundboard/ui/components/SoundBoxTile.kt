@@ -138,7 +138,7 @@ fun SoundBoxTile(
                     textAlign = TextAlign.Center
                 )
                 Text(
-                    text = displayName,
+                    text = displayName.orEmpty(),
                     color = if (isPlaying) AccentSecondary else TextPrimary,
                     fontSize = 12.sp,
                     textAlign = TextAlign.Center,
