@@ -2,6 +2,7 @@ package com.fftool.soundboard.service
 
 import android.app.Service
 import android.content.Intent
+import com.fftool.soundboard.R
 import android.graphics.PixelFormat
 import android.graphics.Point
 import android.os.Build
