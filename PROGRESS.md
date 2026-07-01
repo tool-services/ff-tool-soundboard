@@ -109,3 +109,14 @@
 - Updated proguard-rules.pro with keep rules for Compose, Room, Security Crypto, ExoPlayer
 - Updated GitHub Actions workflow: generates ephemeral keystore via keytool, builds both debug and release APKs
 - Release APK uploaded as separate artifact (app-release)
+
+## 2026-07-01 — Blueprint V2: Floating Panel, Sound Images, AI Prompts, Rotation
+- Redesigned floating panel: bottom layout with vertical social icons bar, grid with scrollbar
+- Header: clickable logo collapses to bubble, optional Hide button
+- Sound box images: image picker during upload (300×300 square), stored as image_path in Room DB
+- SoundBoxTile: displays image from file path via BitmapFactory, falls back to icon
+- Per-component AI prompt registry in AdminPanel (one entry per major component)
+- Rotation handling: BubbleOverlayService adjusts view positions on config change
+- Favorites sorting: sounds ordered by is_favorite DESC, box_number ASC
+- Fixed V2 build: replaced scrollBy (not on LazyGridState) with scrollToItem
+- GitHub Actions build verified successful (#21)

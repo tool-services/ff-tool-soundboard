@@ -1,5 +1,5 @@
 PROJECT: Premium Floating Soundboard App (FF Tool)
-CURRENT PHASE: Complete (All 10 Phases + Polish)
+CURRENT PHASE: Blueprint V2 Complete — Build #21 Passes
 LAST UPDATED: 2026-07-01
 PROJECT LOCATION: /storage/emulated/0/FF TOOL (moved from /root/FF-TOOL)
 
@@ -14,23 +14,21 @@ COMPLETED FEATURES:
 - (Phase 8) Settings + PIN entry (42201) + Admin login gate (only/bypass)
 - (Phase 9) Full Admin Panel (social links, theme editor, AI prompt generator, credentials) + SecurePreferences login
 - (Phase 10) Polish: screen transitions, release signing config, both debug+release APK builds
+- (V2) Floating panel redesign: bottom layout, logo-to-bubble collapse, vertical social bar
+- (V2) Rotation handling via config change in BubbleOverlayService
+- (V2) Sound box image support: image picker during upload, stored as image_path in Room, displayed in grid
+- (V2) Per-component AI prompt registry in Admin Panel
+- (V2) Favorites sorting (allSoundsByFavorite query)
 
-PENDING FEATURES (Blueprint V2 updates):
+PENDING FEATURES (Phase 11+):
 - App Icon Changer framework (activity-alias switching) — waiting for user-provided icon image
-- Floating bubble/panel corrected state machine (tap logo to collapse, rotation handling, Hide button)
-- Sound box images (optional image picker during upload, store in Room as imagePath)
-- Per-component Admin Panel prompt registry (one entry per major component)
-- Phase 10.5 polish: haptic feedback, long-press context menu, search/filter bar, favorites pin, panel opacity slider, auto-hide timer, import/export sound pack
+- Haptic feedback, long-press context menu, search/filter bar, favorites pin toggle in panel
+- Panel opacity slider, auto-hide timer
+- Import/export sound pack (backup/restore)
+- Final signed release APK with production keystore
 
 KNOWN ISSUES:
 - (none)
 
 NEXT STEP:
-- Rebuild app from scratch applying all Blueprint V2 corrections:
-  1. Floating window state machine (bubble ⇄ panel toggle via logo tap)
-  2. Rotation handling with Hide button
-  3. Sound box image support (upload flow + display)
-  4. Per-component admin prompt registry
-  5. App icon changer framework (activity-alias)
-  6. Phase 10.5 polish features
-  7. Final signed release APK
+- Ready for Phase 11 features: haptic feedback, context menu, search/filter, favorites pin, etc.
