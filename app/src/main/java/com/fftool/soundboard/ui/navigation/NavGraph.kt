@@ -5,6 +5,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.fftool.soundboard.ui.screens.AdminLoginScreen
+import com.fftool.soundboard.ui.screens.AdminPanelScreen
 import com.fftool.soundboard.ui.screens.HomeScreen
 import com.fftool.soundboard.ui.screens.LoginScreen
 import com.fftool.soundboard.ui.screens.PermissionsScreen
@@ -117,10 +118,8 @@ fun NavGraph(navController: NavHostController) {
         }
 
         composable(Screen.AdminPanel.route) {
-            /* Phase 9 - Admin Panel Dashboard */
-            androidx.compose.material3.Text(
-                "Admin Panel",
-                color = com.fftool.soundboard.ui.theme.TextPrimary
+            AdminPanelScreen(
+                onNavigateBack = { navController.popBackStack() }
             )
         }
     }

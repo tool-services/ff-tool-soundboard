@@ -36,6 +36,7 @@ import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.fftool.soundboard.data.preferences.SecurePreferences
 import com.fftool.soundboard.ui.components.PremiumButton
 import com.fftool.soundboard.ui.theme.AccentPrimary
 import com.fftool.soundboard.ui.theme.BackgroundPrimary
@@ -51,7 +52,9 @@ fun LoginScreen(onLoginSuccess: () -> Unit) {
     var username by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
     var showPassword by remember { mutableStateOf(false) }
+    val context = LocalContext.current
     var error by remember { mutableStateOf<String?>(null) }
+    val prefs = remember { SecurePreferences(context) }
     val focusManager = LocalFocusManager.current
 
     Column(
@@ -138,7 +141,7 @@ fun LoginScreen(onLoginSuccess: () -> Unit) {
             keyboardActions = KeyboardActions(
                 onDone = {
                     focusManager.clearFocus()
-                    validateLogin(username, password, onLoginSuccess) { error = it }
+                    validateLogin(username, password, prefs, onLoginSuccess) { error = it }
                 }
             )
         )
@@ -168,14 +171,23 @@ fun LoginScreen(onLoginSuccess: () -> Unit) {
 private fun validateLogin(
     username: String,
     password: String,
+    prefs: SecurePreferences,
     onSuccess: () -> Unit,
     onError: (String) -> Unit
 ) {
+    val adminUser = prefs.adminUsername.ifBlank { "admin" }
+    val adminPass = prefs.adminPassword.ifBlank { "admin123" }
+    val userUser = prefs.userUsername.ifBlank { "user" }
+    val userPass = prefs.userPassword.ifBlank { "user123" }
+
     when {
         username.isBlank() || password.isBlank() -> {
             onError("Please enter both username and password")
         }
-        username == "test" && password == "test123" -> {
+        username == adminUser && password == adminPass -> {
+            onSuccess()
+        }
+        username == userUser && password == userPass -> {
             onSuccess()
         }
         else -> {

@@ -79,3 +79,23 @@
 - Panel toggles on bubble tap, follows bubble position during drag
 - Fixed Icons.Outlined.Globe → Language compilation error
 - GitHub Actions build verified successful
+
+## 2026-07-01 — Phase 8: Settings + PIN Entry + Admin Login Gate
+- SecurePreferences: EncryptedSharedPreferences for all credentials + social links
+- SettingsScreen: theme, about, change password, Only Access hidden button
+- PinEntryScreen: premium numeric keypad, 5-digit PIN (42201), error on wrong
+- AdminLoginScreen: admin login (only/bypass), reads from SecurePreferences
+- Navigation: Settings → PIN Entry → Admin Login → Admin Panel (placeholder)
+- Fixed @OptIn(ExperimentalMaterial3Api) compilation error
+- GitHub Actions build verified successful
+
+## 2026-07-01 — Phase 9: Admin Panel (Social, Theme, AI Prompt, Credentials)
+- AdminPanelScreen with 4-tab layout: Social Links Manager, Theme Editor, AI Prompt Generator, Credentials Manager
+- Social Links Manager: editable fields for TikTok, WhatsApp, YouTube, Website URLs saved to SecurePreferences
+- Theme Editor: color swatch display for all 7 palette tokens with hex values
+- AI Prompt Generator: ExposedDropdownMenu category selector, description input, file-mapping table from AiPromptHelper, copy-to-clipboard
+- Credentials Manager: separate Admin and User username/password fields saved to SecurePreferences
+- Updated FloatingPanelContent to read social URLs from SecurePreferences instead of hardcoded values
+- Updated LoginScreen.validateLogin to check SecurePreferences (admin/user creds) instead of hardcoded test/test123
+- Updated NavGraph AdminPanel route from placeholder to real AdminPanelScreen composable
+- GitHub Actions build verified successful

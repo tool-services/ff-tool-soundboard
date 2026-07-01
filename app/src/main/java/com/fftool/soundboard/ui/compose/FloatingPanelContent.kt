@@ -46,6 +46,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.fftool.soundboard.data.SoundRepository
+import com.fftool.soundboard.data.preferences.SecurePreferences
 import com.fftool.soundboard.service.SoundPlayer
 import com.fftool.soundboard.ui.components.SoundBoxTile
 import com.fftool.soundboard.ui.theme.AccentPrimary
@@ -62,6 +63,7 @@ fun FloatingPanelContent(
     onClose: () -> Unit
 ) {
     val context = LocalContext.current
+    val prefs = remember { SecurePreferences(context) }
     val repo = remember { SoundRepository(context) }
     val sounds by repo.allSounds.collectAsState(initial = emptyList())
 
@@ -128,7 +130,7 @@ fun FloatingPanelContent(
                 icon = Icons.Outlined.SmartToy,
                 label = "TikTok",
                 onClick = {
-                    val intent = Intent(Intent.ACTION_VIEW, Uri.parse("https://www.tiktok.com/@fftool"))
+                    val intent = Intent(Intent.ACTION_VIEW, Uri.parse(prefs.tiktokUrl))
                     context.startActivity(intent)
                 }
             )
@@ -136,7 +138,7 @@ fun FloatingPanelContent(
                 icon = Icons.Outlined.MusicNote,
                 label = "WhatsApp",
                 onClick = {
-                    val intent = Intent(Intent.ACTION_VIEW, Uri.parse("https://wa.me/1234567890"))
+                    val intent = Intent(Intent.ACTION_VIEW, Uri.parse("https://wa.me/${prefs.whatsappNumber}"))
                     context.startActivity(intent)
                 }
             )
@@ -144,7 +146,7 @@ fun FloatingPanelContent(
                 icon = Icons.Outlined.VideoLibrary,
                 label = "YouTube",
                 onClick = {
-                    val intent = Intent(Intent.ACTION_VIEW, Uri.parse("https://youtube.com/@fftool"))
+                    val intent = Intent(Intent.ACTION_VIEW, Uri.parse(prefs.youtubeUrl))
                     context.startActivity(intent)
                 }
             )
@@ -152,7 +154,7 @@ fun FloatingPanelContent(
                 icon = Icons.Outlined.Language,
                 label = "Website",
                 onClick = {
-                    val intent = Intent(Intent.ACTION_VIEW, Uri.parse("https://fftool.app"))
+                    val intent = Intent(Intent.ACTION_VIEW, Uri.parse(prefs.websiteUrl))
                     context.startActivity(intent)
                 }
             )
