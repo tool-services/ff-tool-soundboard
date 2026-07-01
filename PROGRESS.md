@@ -57,3 +57,15 @@
 - kapt plugin added for Room annotation processing
 - Fixed @OptIn(ExperimentalMaterial3Api) compilation error
 - GitHub Actions build verified successful
+
+## 2026-07-01 — Phase 6: Floating Bubble Overlay Service
+- BubbleOverlayService as foreground service with WindowManager overlay
+- Draggable circular bubble (56dp) with edge-snap behavior
+- Resides above all apps via TYPE_APPLICATION_OVERLAY
+- NotificationHelper for notification channel + foreground notification
+- Stop action button in notification to end service
+- Notification channel created in MainActivity.onCreate
+- HomeScreen Launch button starts foreground service
+- XML layout for bubble: purple circle with FF text
+- Fixed explicit R import compilation error
+- GitHub Actions build verified successful
