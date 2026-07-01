@@ -7,7 +7,9 @@ import androidx.navigation.compose.composable
 import com.fftool.soundboard.ui.screens.HomeScreen
 import com.fftool.soundboard.ui.screens.LoginScreen
 import com.fftool.soundboard.ui.screens.PermissionsScreen
+import com.fftool.soundboard.ui.screens.RenameWizardScreen
 import com.fftool.soundboard.ui.screens.SplashScreen
+import com.fftool.soundboard.ui.screens.UploadScreen
 
 @Composable
 fun NavGraph(navController: NavHostController) {
@@ -47,10 +49,36 @@ fun NavGraph(navController: NavHostController) {
 
         composable(Screen.Home.route) {
             HomeScreen(
-                onNavigateToUpload = { /* Phase 5 */ },
+                onNavigateToUpload = {
+                    navController.navigate(Screen.Upload.route)
+                },
                 onNavigateToSettings = {
                     navController.navigate(Screen.Settings.route)
                 }
+            )
+        }
+
+        composable(Screen.Upload.route) {
+            UploadScreen(
+                onNavigateBack = { navController.popBackStack() },
+                onNavigateToRenameWizard = { uris, names ->
+                    NavArgs.renameUris = uris
+                    NavArgs.renameNames = names
+                    navController.navigate(Screen.RenameWizard.createRoute())
+                }
+            )
+        }
+
+        composable(Screen.RenameWizard.createRoute()) {
+            RenameWizardScreen(
+                fileUris = NavArgs.renameUris,
+                originalNames = NavArgs.renameNames,
+                onComplete = {
+                    NavArgs.renameUris = emptyList()
+                    NavArgs.renameNames = emptyList()
+                    navController.popBackStack(Screen.Upload.route, inclusive = false)
+                },
+                onNavigateBack = { navController.popBackStack() }
             )
         }
 

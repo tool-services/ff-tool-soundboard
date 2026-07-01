@@ -36,3 +36,13 @@
 - Navigation graph: Splash → Login → Home with clean backstack pop
 - MainActivity refactored to NavHost with Compose Navigation
 - GitHub Actions build verified successful
+
+## 2026-07-01 — Phase 4: Home Screen + Permissions Onboarding
+- PermissionsScreen with 3 premium-styled rationale cards (media, overlay, notifications)
+- Each card: icon, description, grant button, granted/green status when done
+- Overlay permission uses Settings.ACTION_MANAGE_OVERLAY_PERMISSION intent
+- Continue button activates only when all permissions granted
+- Navigation: Login → Permissions → Home
+- HomeScreen polished with placeholders for Upload/Launch
+- Fixed missing Box import compilation error
+- GitHub Actions build verified successful

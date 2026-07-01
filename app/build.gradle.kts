@@ -1,6 +1,7 @@
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
+    id("org.jetbrains.kotlin.kapt")
 }
 
 android {
@@ -76,6 +77,11 @@ dependencies {
 
     // Media3 (ExoPlayer)
     implementation("androidx.media3:media3-exoplayer:1.2.1")
+
+    // Room
+    implementation("androidx.room:room-runtime:2.6.1")
+    implementation("androidx.room:room-ktx:2.6.1")
+    kapt("androidx.room:room-compiler:2.6.1")
 
     // Jetpack Security
     implementation("androidx.security:security-crypto:1.1.0-alpha06")
