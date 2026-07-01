@@ -16,3 +16,14 @@
 - Added `.gitignore` and `.github/workflows/build.yml` for CI
 - Created `PROGRESS.md` and `PROJECT_STATE.txt` tracking files
 - Created placeholder `BubbleOverlayService` and `Sound` data model
+- Pushed to GitHub, build verified successful
+
+## 2026-07-01 — Phase 2: Design System Foundation
+- PremiumButton: pill shape (28dp), gradient fill, glow shadow, press scale animation
+- PremiumCard: 16dp radius, SurfaceElevated bg, BorderSubtle border, soft shadow
+- SoundBoxTile: square grid tile with empty (dashed/+), loaded, and playing states
+- Playing state: animated pulse scale (1.0-1.04) and glow border in AccentSecondary
+- GradientBackground: full-screen vertical gradient composable
+- ComponentPreviewScreen: visual verification of all design components
+- Fixed background overload ambiguity and nullable String? compilation errors
+- GitHub Actions build verified successful

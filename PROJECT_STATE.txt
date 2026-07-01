@@ -1,29 +1,23 @@
 PROJECT: Premium Floating Soundboard App (FF Tool)
-CURRENT PHASE: 2 of 10
+CURRENT PHASE: 3 of 10
 LAST UPDATED: 2026-07-01
 
 COMPLETED FEATURES:
-- (Phase 1) Project skeleton: Gradle 8.4, AGP 8.2.2, Kotlin 1.9.22, Compose BOM 2024.01.00
-- (Phase 1) Android manifest with all permissions declared
-- (Phase 1) Compose theme foundation (colors, typography, dark theme)
-- (Phase 1) GitHub Actions CI workflow — DEBUG APK BUILDS & UPLOADS SUCCESSFULLY
-- (Phase 1) Adaptive vector app icon, PROGRESS.md, PROJECT_STATE.txt tracking
-- (Phase 1) Git initialized, pushed to github.com/tool-services/ff-tool-soundboard
-- (Phase 1) GitHub Actions build verified — Phase 1 APK built and artifact uploaded
+- (Phase 1) Project skeleton + GitHub Actions CI — BUILD PASSES
+- (Phase 2) Design system: PremiumButton, PremiumCard, SoundBoxTile, GradientBackground, ComponentPreview
 
 PENDING FEATURES:
-- Phase 2: Design system (PremiumButton, PremiumCard, SoundBoxTile, GradientBackground)
-- Phase 3: Navigation, Login, Splash screen animation
-- Phase 4: Home screen, permissions onboarding
-- Phase 5: Upload system (Room database, file picker, folder picker)
+- Phase 3: Splash animation, Login screen, Navigation graph
+- Phase 4: Home screen + Permissions onboarding
+- Phase 5: Upload system (Room, file picker, folder picker)
 - Phase 6: Bubble overlay service (foreground service, draggable bubble)
 - Phase 7: Floating panel UI (Compose-in-overlay, ExoPlayer playback)
 - Phase 8: Settings, PIN entry, Admin login gate
-- Phase 9: Full Admin Panel (social links, theme editor, AI prompt generator, credentials)
+- Phase 9: Full Admin Panel
 - Phase 10: Polish, animations, bug fixes, release build
 
 KNOWN ISSUES:
 - (none yet)
 
 NEXT STEP:
-- Begin Phase 2: Design system reusable components
+- Begin Phase 3: Splash + Login + Navigation
